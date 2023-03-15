@@ -1,0 +1,31 @@
+{
+  "users": [
+    {
+      "id": 1,
+      "name": "John Doe",
+      "email": "john.doe@example.com",
+      "phone": "123-456-7890",
+      "company": {
+        "name": "Example Company"
+      }
+    },
+    {
+      "id": 2,
+      "name": "Jane Doe",
+      "email": "jane.doe@example.com",
+      "phone": "555-555-5555",
+      "company": {
+        "name": "Example Company"
+      }
+    },
+    {
+      "name": "salam",
+      "email": "sadgfdhsgf@dsgf.df",
+      "phone": "54851199",
+      "company": {
+        "name": "jhgcyf"
+      },
+      "id": 3
+    }
+  ]
+}

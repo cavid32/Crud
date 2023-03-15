@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8" />
+    <title>JSON Server Demo</title>
+  </head>
+  <body>
+    <h1>Users</h1>
+    <a href="./add-user.html">Yeni istifadəçi əlavə et</a>
+    <br />
+    <br />
+    <br />
+    <label for="searchInput">Search:</label>
+    <input type="text" id="searchInput" />
+    <table>
+      <thead>
+        <tr>
+          <th>Name</th>
+          <th>Email</th>
+          <th>Phone</th>
+          <th>Company</th>
+          <th>Action</th>
+        </tr>
+      </thead>
+      <tbody id="userTableBody"></tbody>
+    </table>
+
+    <script>
+      fetch("http://localhost:3000/users")
+        .then((response) => response.json())
+        .then((users) => {
+          const userTableBody = document.getElementById("userTableBody");
+          const searchInput = document.getElementById("searchInput");
+
+          function filterUsers() {
+            const searchValue = searchInput.value.toLowerCase();
+
+            const filteredUsers = users.filter((user) => {
+              const userName = user.name.toLowerCase();
+              return userName.includes(searchValue);
+            });
+
+            userTableBody.innerHTML = "";
+
+            filteredUsers.forEach((user) => {
+              const row = `
+							<tr>
+								<td>${user.name}</td>
+								<td>${user.email}</td>
+								<td>${user.phone}</td>
+								<td>${user.company.name}</td>
+							</tr>
+						`;
+              userTableBody.innerHTML += row;
+            });
+          }
+
+          searchInput.addEventListener("keyup", filterUsers);
+
+          users.forEach((user) => {
+            const row = `
+        <tr>
+          <td>${user.name}</td>
+          <td>${user.email}</td>
+          <td>${user.phone}</td>
+          <td>${user.company.name}</td>
+          <td>
+            <button onclick="deleteUser(${user.id})">Delete</button> <!-- burada yeni bir buton ekleyin -->
+          </td>
+        </tr>
+      `;
+            userTableBody.innerHTML += row;
+          });
+        });
+
+      function deleteUser(id) {
+        fetch(`http://localhost:3000/users/${id}`, {
+          method: "DELETE",
+        }).then((response) => {
+          if (response.ok) {
+            location.reload();
+          }
+        });
+      }
+    </script>
+  </body>
+</html>
